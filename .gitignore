@@ -1,6 +1,7 @@
 # Some of my
 data/
 .gitignore
+*.swp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
