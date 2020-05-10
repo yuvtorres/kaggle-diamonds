@@ -3,6 +3,8 @@ import numpy as np
 from sklearn.svm import LinearSVR
 from sklearn.svm import SVR
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -13,53 +15,53 @@ import warnings
 if not sys.warnoptions:
     warnings.simplefilter("ignore")
 
-def SVR_poly(diamonds_nor,price,test_s,deeper):
+def SVR_gen(diamonds,test_s,deeper,epsilon_v,C_v,type_dia):
     # receive the dataframe and the proportion of test/sample
-    # diamonds_nor: X normalized, price: vector of prices, test_s: float (0-1)
+    # diamonds_ : X , price: vector of prices, test_s: float (0-1)
     # part of sample, deeper: Bool if True makes 5 samples for each epsilon
-    # if false makes just one
+    # if false makes just one, eps is a list of values for eps and C aswell.
 
-    print('----- RBF SVR with polynomic kernel and normalize variables  -----')
-    X=diamonds_nor
-    y=price
+    print(f'----- RBF SVR with normalize variables and eps={epsilon_v} -----')
+    X=diamonds.drop(columns=['price'])
+    y=diamonds.price
 
-    # SVR with polynomical Kernel for different samples
-    print('---- Testing the RBF polynomic kernel with params gamma=0.1 and epsilon [0.5 , 1.5 , 2.5]')
-
-    epsilon_v =[0.5,1.5,2.5]
-    RMSE=[]
+    MSE=[]
     x_test=[]
+    y_test=[]
 
     for eps in epsilon_v:
-        print(f"RBF Polynomic with epsilon = {eps}")
-        dep=1
-        svr_poly = SVR(kernel='poly',C=100 , gamma='auto', degree=2, coef0=1, epsilon=eps)
-        if deeper:
-            k=5
-        else:
-            k=1
-        while dep<=k:
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_s)
-            y_predict=svr_poly.fit(X_train,y_train).predict(X_test)
-            RMSE.append((((y_predict-y_test)**2).sum()/len(y_test))**0.5)
-            x_test.append(eps)
-            dep+=1
+        for c_val in C_v:
+            dep=1
+            svr = SVR(C=c_val , epsilon=eps)
+            if deeper:
+                k=5
+            else:
+                k=1
+            while dep<=k:
+                print(f"SVR with epsilon = {eps} and C = {c_val}")
+                X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_s)
+                y_predict=svr.fit(X_train,y_train).predict(X_test)
+                MSE.append(mean_squared_error(y_predict,y_test))
+                x_test.append(eps)
+                #y_test.append(c_val)
+                dep+=1
 
     print('The result of the model is in the ouput folder -> "svr_rbf_rmse_vs_epsilon_nor.png" ')
-    plt.scatter(x_test,RMSE)
+    plt.scatter(x_test,MSE)
     plt.xlabel('Epsilon')
-    plt.ylabel('RMSE value')
-    plt.savefig('output/svr_poly_rmse_vs_epsilon_nor.png')
-
+    plt.ylabel('MSE value')
+    plt.savefig('output/svr_rmse_vs_epsilon_'+type_dia+'.png')
+    eps=sum(epsilon_v)/len(epsilon_v)
+    c_val=sum(C_v)/len(C_v)
     print('Generating submission file ...')
-    svr_poly = SVR(kernel='poly',C=100 , gamma=auto, degree=2, coef0=1, epsilon=eps)
-    svr_poly.fit(X,y)
-    X_test=pd.read_csv('output/diamonds_test_nor.csv')
+    svr = SVR(C=c_val, epsilon=eps)
+    svr.fit(X,y)
+    X_test=pd.read_csv('output/diamonds_test_'+type_dia+'.csv')
     X_test=X_test.reset_index().set_index('index')
-    y_sub=regr.predict(X_test)
+    y_sub=svr.predict(X_test)
     y_sub=pd.DataFrame({'id':range(len(y_sub)),'price': np.absolute(y_sub.astype(int))})
 
-    y_sub.to_csv('output/poly_pred_nor.csv',index=False)
+    y_sub.to_csv('output/svr_'+type_dia+'.csv',index=False)
 
     return True
 
@@ -67,7 +69,7 @@ def SVR_poly(diamonds_nor,price,test_s,deeper):
 def rbf_SVR_no(diamonds_nor,price,test_s,deeper):
     # receive the dataframe and the proportion of test/sample
     print('----- RBF SVR with kernel rbf and normalize variables  -----')
-    X=diamonds_nor
+    X=diamonds_nor.drop(columns=['price'])
     y=price
 
     # SVR with RBF Kernel for different samples

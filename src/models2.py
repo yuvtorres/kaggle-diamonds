@@ -1,9 +1,8 @@
 import pandas as pd
 import numpy as np
 from sklearn import ensemble
-from sklearn.experimental import enable_hist_gradient_boosting
+from sklearn import tree
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.metrics import mean_squared_error
 
 import matplotlib.pyplot as plt
@@ -31,33 +30,34 @@ def gradient_reg(diamonds_nor,test_s,learn_rate):
     clf = ensemble.GradientBoostingRegressor(**params)
     clf.fit(X, y)
     X_test=pd.read_csv('output/diamonds_test_nor.csv')
-    X_test=X_test.reset_index().set_index('index')
-    y_sub=regr.predict(X_test)
+    X_test=X_test.reset_index().set_index('index').drop(columns=['Unnamed: 0'])
+    y_sub=clf.predict(X_test)
     y_sub=pd.DataFrame({'id':range(len(y_sub)),'price': np.absolute(y_sub.astype(int))})
 
     y_sub.to_csv('output/gra_pred_nor.csv',index=False)
 
     return True
 
-def hist_gra(diamonds_nor, test_s):
+
+def rand_fores(diamonds_nor, test_s):
     X=diamonds_nor.drop(columns=['price'])
     y=diamonds_nor['price']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_s)
 
-    reg_hist = HistGradientBoostingClassifier()
+    reg_hist = ensemble.RandomForestRegressor()
     reg_hist.fit(X_train, y_train)
     mse = mean_squared_error(y_test, reg_hist.predict(X_test))
-    print("For the HistGradientBoostingClassifier Regresor the MSE is: %.4f" % mse)
+    print("For the RandomForestRegressor the MSE is: %.4f" % mse)
 
     print('Generating submission file ...')
-    reg_hist = HistGradientBoostingClassifier()
-    reg_hist.fit(X, y)
+    reg = ensemble.RandomForestRegressor()
+    reg.fit(X, y)
     X_test = pd.read_csv('output/diamonds_test_nor.csv')
-    X_test = X_test.reset_index().set_index('index')
-    y_sub = regr.predict(X_test)
+    X_test = X_test.reset_index().set_index('index').drop(columns=['Unnamed: 0'])
+    y_sub = reg.predict(X_test)
     y_sub = pd.DataFrame({'id':range(len(y_sub)),'price': np.absolute(y_sub.astype(int))})
 
-    y_sub.to_csv('output/hist_pred_nor.csv',index=False)
+    y_sub.to_csv('output/rafor_pred_nor.csv',index=False)
 
     return True
 

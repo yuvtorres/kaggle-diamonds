@@ -27,19 +27,25 @@ def run_model(model, deeper=False):
     diamonds_nor=pd.read_csv('output/diamonds_nor.csv')
     diamonds_nor=diamonds_ne.reset_index().set_index('index')
 
+    print('Importing diamonds_PCA.csv')
+    diamonds_PCA=pd.read_csv('output/diamonds_PCA.csv')
+    diamonds_PCA=diamonds_ne.reset_index().set_index('index')
+
     if model==1:
         mod.linear_SVR_dummies(diamonds_dum)
         mod.linear_SVR_ne(diamonds_ne)
     elif model==2:
 #        mod.rbf_SVR_ne(diamonds_ne,0.35,deeper)
 #        mod.rbf_SVR_no(diamonds_nor,diamonds_ne.price,0.35,deeper)
-        mod.SVR_poly(diamonds_nor,diamonds_ne.price,0.35,deeper)
+        mod.SVR_gen(diamonds_PCA,0.3,deeper,[0.7],[1.0],'PCA')
     elif model==3:
         # The parameter are:  Xy  and  test proportion of the sample
-        mod2.hist_gra(diamonds_nor,0.35)
+        mod2.rand_fores(diamonds_PCA,0.3)
     elif model==4:
         # The parameter are:  Xy, test proportion of the sample and the
         # learning rate
-        mod.gradient_reg(diamonds_nor,0.35,0.01)
+        mod2.gradient_reg(diamonds_PCA,0.3,0.2)
 
+def resume():
 
+    return True

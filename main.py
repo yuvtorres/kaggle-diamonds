@@ -12,7 +12,7 @@ def main():
     description_text = '\n'.join( file1.readlines() )
     file1.close()
     parser = argparse.ArgumentParser(description=description_text)
-    
+
     # optional arguments to execute the cleaning of the data
     parser.add_argument('--data_c_t', action='store_true',
                 help=''' (default: False) Make the transformation of the data:
@@ -28,9 +28,9 @@ def main():
             RandomForest_reg\n4 -> GradientBoostingRegressor\n''')
     parser.add_argument('--resume', action='store_true', 
             help='If active a resume of the models is generated\n')
-    
+
     args = parser.parse_args()
-    
+
 	# Data cleaning and transformation
     if args.data_c_t:
 	    d_c.cleaning_data()
