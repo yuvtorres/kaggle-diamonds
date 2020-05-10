@@ -31,12 +31,27 @@ The data supplied are three tables:
 + diamonds_train.csv -> 11 columns included index, three of the not numeric (40345)
 + sample_submision.csv -> two columns, one id and two the price
 
+The columns of the data are:
+
+   -  carat:
+   -  cut:
+   -  color:
+   -  clarity:
+   -  depth:
+   -  table:
+   -  x,y,z:
+   -  price:
+
 ---
 ## Preprocess
 
-The preprocess of the data will include: dummies generation, 
+The preprocess of the data include: dummies generation, numeric encoding, PCA, and filter outlayers.
 
-### Dummies generation
+The result of this part of the process were differents dataframes to be evaluated for the models.
+
+### Dummies generation and numeric encoding
+
+The 
 
 ---
 ## The Algorithms
