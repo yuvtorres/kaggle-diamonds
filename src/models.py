@@ -31,6 +31,7 @@ def SVR_poly(diamonds_nor,price,test_s,deeper):
     x_test=[]
 
     for eps in epsilon_v:
+        print(f"RBF Polynomic with epsilon = {eps}")
         dep=1
         svr_poly = SVR(kernel='poly',C=100 , gamma='auto', degree=2, coef0=1, epsilon=eps)
         if deeper:

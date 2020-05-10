@@ -1,5 +1,6 @@
 output/corr.png
 output/diamonds_dum.csv
+output/diamonds_PCA.csv
 output/diamonds_ne.csv
 output/diamonds_test_PCA.csv
 output/diamonds_test_ne.csv
@@ -142,3 +143,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 output/*.csv
+output/diamonds_PCA.csv
+src/main.ipynb
