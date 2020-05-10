@@ -31,9 +31,21 @@ The data supplied are three tables:
 + `diamonds_train.csv` -> 11 columns included index, three of the not numeric (40345)
 + `sample_submision.csv` -> two columns, one id and two the price
 
+The columns of the data are:
+
+   -  carat:
+   -  cut:
+   -  color:
+   -  clarity:
+   -  depth:
+   -  table:
+   -  x,y,z:
+   -  price:
+
 ---
 ## Preprocess
 
+<<<<<<< HEAD
 The preprocess of the data will include: dummies generation, Categorial
 generation, Normilization and filter the outlayers
 
@@ -44,6 +56,15 @@ categorical form: cut, color and clarity.
 
 With dummies and using a basic regression model we can give an
 order to this categories (even if we are not experts).
+=======
+The preprocess of the data include: dummies generation, numeric encoding, PCA, and filter outlayers.
+
+The result of this part of the process were differents dataframes to be evaluated for the models.
+
+### Dummies generation and numeric encoding
+
+The 
+>>>>>>> d9ee428a1bb39141c9c806a7baea253bbebacd7c
 
 ---
 ## The Models
