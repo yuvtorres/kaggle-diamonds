@@ -1,3 +1,10 @@
+output/corr.png
+output/diamonds_dum.csv
+output/diamonds_ne.csv
+output/diamonds_test_PCA.csv
+output/diamonds_test_ne.csv
+output/linear_pred.csv
+output/svr_liner_r2_vs_sample.png
 data/
 .gitignore
 *.swp
