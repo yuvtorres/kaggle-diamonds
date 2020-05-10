@@ -1,7 +1,9 @@
-# Some of my
 data/
 .gitignore
 *.swp
+*.csv
+__pycache__
+output/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -132,3 +134,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+output/*.csv

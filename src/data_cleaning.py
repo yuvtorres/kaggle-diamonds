@@ -1,101 +1,100 @@
 import pandas as pd
 import numpy as np
-from sklearn import preprocessing as prp
-from sklearn.decomposition import PCA
+import src.cleaning_functions as c_f
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Module for cleaning the data set of diamons.
-def main():
+# Module for cleaning the data and make some graphs.
+
+def pre_graph(graph):
+    # 1 for corr, 2 for matrix and 3 for both
+
+    diamonds=pd.read_csv('data/diamonds_train.csv')
+    if graph==1 or graph==3:
+# ***** Creating the correlation graph ***** 
+   # Export the correlation
+        print('Saving correlation graph...')
+        f, ax = plt.subplots(figsize=(9, 6))
+        sns.heatmap(diamonds.corr(), annot=True, linewidths=.5, ax=ax)
+        plt.savefig('output/corr.png')
+
+    if graph==2 or graph==3:
+# ***** Creating the matrix graph ***** 
+        print('Saving matrix graph...')
+        g = sns.PairGrid(diamonds[['carat','depth','table','x','y','z','price']])
+        g.map_diag(plt.hist)
+        g.map_offdiag(plt.scatter);
+        plt.savefig('output/descrip_var.png')
+
+
+
+
+def cleaning_data():
     print('Importing the data ...')
 
 # ***** Import the data ***** 
-    diamonds_train=pd.read_csv('../data/diamonds_train.csv')
-    diamonds_test=pd.read_csv('../data/diamonds_test.csv')
-    print('Creating the index ...')
+    diamonds_train=pd.read_csv('data/diamonds_train.csv')
+    diamonds_test=pd.read_csv('data/diamonds_test.csv')
 
+    # ***** Take out the outlayer ***** 
+    diamonds_train=diamonds_train.loc[diamonds_train.y<30]
+
+    print('Creating the index ...')
     # drop de 'Unnamed: 0' and reset index
     diamonds=diamonds_train.drop(columns=['Unnamed: 0'])
-    diamonds=diamonds.reset_index().set_index('index')
+    diamonds['index']=range(len(diamonds))
+    diamonds=diamonds.set_index('index')
     diamonds_test=diamonds_test.drop(columns=['Unnamed: 0'])
     diamonds_test=diamonds_test.reset_index().set_index('index')
-
-    print('Saving correlation graph')    
-    # Export the correlation
-    f, ax = plt.subplots(figsize=(9, 6))
-    sns.heatmap(diamonds.corr(), annot=True, linewidths=.5, ax=ax)
-    plt.savefig('../output/corr.png')
 
 # ***** Creating the dummies ***** 
     print('Creating the dummies ...')
     dum_var=['cut','color','clarity']
     # Define the mat with dummies
-    diamonds_dum=create_dummies(dum_var,diamonds)
-    diamonds_test_dum=create_dummies(dum_var,diamonds_test)
+    diamonds_dum=c_f.create_dummies(dum_var,diamonds)
+    diamonds_test_dum=c_f.create_dummies(dum_var,diamonds_test)
 
     # Cleaning the diamons original from the dummies
     diamonds=diamonds.drop(columns=diamonds.columns[10:])
-    print(diamonds.head())
     
     print('Saving Dummies ...')
     # Export the data_cleaning
-    diamonds_dum.to_csv('../output/diamonds_dum.csv')
-    diamonds_test_dum.to_csv('../output/diamonds_test_dum.csv')
+    diamonds_dum.to_csv('output/diamonds_dum.csv')
+    diamonds_test_dum.to_csv('output/diamonds_test_dum.csv')
 
 # ***** Creating numeric encoding ***** 
-    print('Creating numeric encoding')
+    print('Creating numeric encoding ...')
     # Defining the label incoding
-    diamonds_ne=create_numencod(diamonds,dum_var)
-    diamonds_test_ne=create_numencod(diamonds_test,dum_var)
+    diamonds_ne=c_f.create_numencod(diamonds,dum_var)
+    diamonds_test_ne=c_f.create_numencod(diamonds_test,dum_var)
     
     print('Saving numeric encoding ...')
     # Export the data_cleaning
-    diamonds_dum.to_csv('../output/diamonds_ne.csv')
-    diamonds_test_dum.to_csv('../output/diamonds_test_ne.csv')
+    diamonds_ne.to_csv('output/diamonds_ne.csv')
+    diamonds_test_ne.to_csv('output/diamonds_test_ne.csv')
 
 # ***** Creating PCA ***** 
-    print('Creating PCA')
-    # Defining the label incoding
-    diamonds_PCA=create_PCA(diamonds,dum_var)
-    diamonds_test_PCA=create_PCA(diamonds_test,dum_var)
+    print('Creating PCA ...')
+    # Creating PCA
+    dum_var=[var+'_ne' for var in dum_var]
+    diamonds_PCA=c_f.create_PCA(diamonds_ne,dum_var)
+    diamonds_test_PCA=c_f.create_PCA(diamonds_test,dum_var)
     
     print('Saving PCA ...')
     # Export the data_cleaning
-    diamonds_PCA.to_csv('../output/diamonds_PCA.csv')
-    diamonds_test_PCA.to_csv('../output/diamonds_test_PCA.csv')
+    diamonds_PCA.to_csv('output/diamonds_PCA.csv')
+    diamonds_test_PCA.to_csv('output/diamonds_test_PCA.csv')
 
+# ***** Creating Normalize *****
+    print('Normalizing the data... ')
+    # Normalizing
+    diamonds_nor=c_f.normalize(diamonds_ne.drop(columns=['price']),dum_var)
+    diamonds_test_nor=c_f.normalize(diamonds_test_ne,dum_var)
+    diamonds_nor['price']=diamonds_ne['price']
 
+    print('Saving  normalize...')
+    # Export the data_cleaning
+    diamonds_nor.to_csv('output/diamonds_nor.csv')
+    diamonds_test_nor.to_csv('output/diamonds_test_nor.csv')
 
-
-def create_PCA(diamonds,dum_var):
-#functoin to create numerci encoding
-    enc = prp.LabelEncoder()
-    for var in dum_var:
-        diamonds[var+'ne']=enc.fit_transform(diamonds[var])
-    
-    return diamonds.drop(columns=dum_var)
-
-
-def create_numencod(diamonds,dum_var):
-#function to create numeric encoding
-    enc = prp.LabelEncoder()
-    for var in dum_var:
-        diamonds[var+'ne']=enc.fit_transform(diamonds[var])
-    
-    return diamonds.drop(columns=dum_var)
-
-def create_dummies(dum_var,diamonds):
-# function to create dummies variables
-    for var in dum_var:
-        names=list(diamonds[var].value_counts().index)
-        dum=prp.label_binarize(diamonds[var],names)
-        dum=pd.DataFrame(dum)
-        dum=dum.rename( columns=dict( zip( range(len(names)) ,[var+'_'+name for name in names] ) ) )
-        dum['index']=np.array(range(len(dum)))
-        dum=dum.set_index('index')
-        diamonds=diamonds.join(dum,on='index')
-
-    return diamonds.drop(columns=dum_var)
-
-
-if __name__ == "__main__": main()

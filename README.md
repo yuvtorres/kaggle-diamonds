@@ -27,19 +27,26 @@ The [bases](https://www.kaggle.com/c/diamonds-datamad0320) of the competition ar
 
 The data supplied are three tables:
 
-+ diamonds_test.csv -> 10 columns included index, three of the not numeric (13449)
-+ diamonds_train.csv -> 11 columns included index, three of the not numeric (40345)
-+ sample_submision.csv -> two columns, one id and two the price
++ `diamonds_test.csv` -> 10 columns included index, three of the not numeric (13449)
++ `diamonds_train.csv` -> 11 columns included index, three of the not numeric (40345)
++ `sample_submision.csv` -> two columns, one id and two the price
 
 ---
 ## Preprocess
 
-The preprocess of the data will include: dummies generation, 
+The preprocess of the data will include: dummies generation, Categorial
+generation, Normilization and filter the outlayers
 
-### Dummies generation
+### Categorical and dummy generation
+
+There are three variables categoricals, that were transform in dummy and
+categorical form: cut, color and clarity.
+
+With dummies and using a basic regression model we can give an
+order to this categories (even if we are not experts).
 
 ---
-## The Algorithms
+## The Models
 
 ---
 ## Results
