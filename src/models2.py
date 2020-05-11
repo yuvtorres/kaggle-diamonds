@@ -135,7 +135,10 @@ def rand_fores(diamonds, test_s,type_i='nor'):
         X_test=X_test.drop(columns=['Unnamed: 0'])
     if 'level_0' in X_test.columns:
         X_test=X_test.drop(columns=['level_0'])
-    y_sub = reg.predict(X_test)
+    try:
+        y_sub = reg.predict(X_test)
+    except:
+        print(X_test.columns,X.columns)
     y_sub = pd.DataFrame({'id':range(len(y_sub)),'price': np.absolute(y_sub.astype(int))})
 
     y_sub.to_csv('output/pred_rafor_'+type_i+'.csv',index=False)
