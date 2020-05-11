@@ -28,7 +28,11 @@ def main():
             RandomForest_reg\n4 -> GradientBoostingRegressor\n5->SGDRegressor\n
             6->HistGradientBoostingRegressor''')
     parser.add_argument('--resume', action='store_true', 
-            help='If active a resume of the models is generated\n')
+            help='If active a resume of the models is generated \n')
+
+    parser.add_argument('--hist_deep', metavar='hi',type=int, nargs='+',default=1,\
+            help='''Execute an iterative process over the Histogram-based
+            Gradient Boosting regression search for a best solution ''')
 
     args = parser.parse_args()
 
@@ -46,6 +50,13 @@ def main():
 
     if args.resume:
         r_m.resume()
+
+    if args.hist_deep:
+        if args.hist_deep[0]==1:
+            r_m.h_itera()
+        else:
+            for k in range(args.hist_deep[0]):
+                r_m.h_itera(str(k))
 
 
 if __name__=="__main__": main()

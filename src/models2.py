@@ -16,7 +16,7 @@ import warnings
 if not sys.warnoptions:
     warnings.simplefilter("ignore")
 
-def hist_gra(diamonds,test_s,type_i='nor',learn_rate=0.1):
+def hist_gra(diamonds,test_s,type_i='nor',learn_rate=0.1,make_pred=True,verb=0):
     X=diamonds.drop(columns=['price'])
     if 'Unnamed: 0' in X.columns:
         X=X.drop(columns=['Unnamed: 0'])
@@ -24,26 +24,26 @@ def hist_gra(diamonds,test_s,type_i='nor',learn_rate=0.1):
         X=X.drop(columns=['level_0'])
     y=diamonds['price']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_s)
-    params = {'learning_rate': learn_rate }
+    params = {'learning_rate': learn_rate,'warm_start':True, 'verbose':verb}
 
     clf = ensemble.HistGradientBoostingRegressor(**params)
     clf.fit(X_train, y_train)
     mse = mean_squared_error(y_test, clf.predict(X_test))
     print("For the HistGradient Boosting Regressor the MSE is: %.4f" % mse)
+    
+    if make_pred:
+        print('Generating submission file ...')
+        clf.fit(X, y)
+        X_test=pd.read_csv('output/diamonds_test_'+type_i+'.csv')
+        X_test=X_test.reset_index().set_index('index')
+        if 'Unnamed: 0' in X_test.columns:
+            X_test=X_test.drop(columns=['Unnamed: 0'])
+        if 'level_0' in X_test.columns:
+            X_test=X_test.drop(columns=['level_0'])
 
-    print('Generating submission file ...')
-    clf.fit(X, y)
-    X_test=pd.read_csv('output/diamonds_test_'+type_i+'.csv')
-    X_test=X_test.reset_index().set_index('index')
-    if 'Unnamed: 0' in X_test.columns:
-        X_test=X_test.drop(columns=['Unnamed: 0'])
-    if 'level_0' in X_test.columns:
-        X_test=X_test.drop(columns=['level_0'])
-
-    y_sub=clf.predict(X_test)
-    y_sub=pd.DataFrame({'id':range(len(y_sub)),'price': np.absolute(y_sub.astype(int))})
-
-    y_sub.to_csv('output/pred_HG_'+type_i+'.csv',index=False)
+        y_sub=clf.predict(X_test)
+        y_sub=pd.DataFrame({'id':range(len(y_sub)),'price': np.absolute(y_sub.astype(int))})
+        y_sub.to_csv('output/pred_HG_'+type_i+'.csv',index=False)
 
     return mse
 

@@ -105,8 +105,38 @@ def resume():
             print(mse[-1])
 
     mse=[ele if ele<1e6 else 1e6 for ele in mse ]
-    res=pd.Dataframe({'mse':mse,'caso':x})
+    res=pd.DataFrame({'mse':mse,'caso':x})
     res.to_csv('output/resume.csv')
     print(res)
 
     return True
+
+
+def h_itera(h_itera=''):
+    # Especific functions for histogram based gradient, the 
+    # argument h_itera is optional to modify the file result
+
+    print('Importing diamonds_dum.csv')
+    # import diamons_dum, drop unnamed and asign index
+    diamonds_dum=pd.read_csv('output/diamonds_dum.csv')
+    diamonds_dum=diamonds_dum.set_index('index')
+    res=[]
+    k=1
+    n_iter=25
+    learn_rate=0.1
+    test_p=0.3
+    x_learn=[learn_rate+x/100.0 for x in range(n_iter-1)]
+
+    while k<n_iter:
+        print('learn_rate:',learn_rate)
+        res.append(mod2.hist_gra(diamonds_dum,test_p,'dum',learn_rate,False,0))
+        learn_rate+=0.01
+        k+=1
+
+    pd.DataFrame({f'mse_prop_sampl_{test_p}':res,'learn_rate':x_learn}).to_csv('output/h_itera'+h_itera+'.csv')
+
+    return True
+
+
+
+
