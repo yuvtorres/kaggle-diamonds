@@ -32,7 +32,7 @@ def main():
     parser.add_argument('--resume', action='store_true', 
             help='If active a resume of the models is generated \n')
 
-    parser.add_argument('--hist_deep', metavar='hi',type=int, nargs='+',default=1,\
+    parser.add_argument('--hist_deep', metavar='hi',type=int, nargs='?',default=1,\
             help='''Execute an iterative process over the Histogram-based
             Gradient Boosting regression search for a best solution ''')
 
@@ -40,7 +40,7 @@ def main():
 
 	# Data cleaning and transformation
     if args.data_c_t:
-	    d_c.cleaning_data()
+        d_c.cleaning_data()
 
     # create some previuos graphs
     if args.pre_graph:
@@ -53,7 +53,7 @@ def main():
     if args.resume:
         r_m.resume()
 
-    if args.hist_deep:
+    if not isinstance(args.hist_deep,int):
         if args.hist_deep[0]==1:
             r_m.h_itera()
         else:
@@ -64,7 +64,7 @@ def main():
             for k in range(30):
                 x=x.append(pd.read_csv(f'output/h_itera{k}.csv'), ignore_index=True)
 
-            sns.lmplot(x="learn_rate", y="mse_prop_sampl_0.3", data=x)
+            g=sns.lmplot(x="learn_rate", y="mse_prop_sampl_0.3", data=x)
             g.set_axis_labels("Learn rate", "MSE with sample proportion of 0.3")
             plt.savefig('output/Hist_Grad.png')
 

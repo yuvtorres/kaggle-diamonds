@@ -48,7 +48,7 @@ def run_model(model, deeper=False):
     elif model==5:
         mod2.sgd_regresor(diamonds_nor,0.3)
     elif model==6:
-        mod2.hist_gra(diamonds_nor,0.3)
+        mod2.hist_gra(diamonds_dum,0.3)
 
 def resume():
     print('Importing diamonds_dum.csv')

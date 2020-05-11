@@ -16,7 +16,7 @@ import warnings
 if not sys.warnoptions:
     warnings.simplefilter("ignore")
 
-def hist_gra(diamonds,test_s,type_i='nor',learn_rate=0.1,make_pred=True,verb=0):
+def hist_gra(diamonds,test_s,type_i='dum',learn_rate=0.16,make_pred=True,verb=0):
     X=diamonds.drop(columns=['price'])
     if 'Unnamed: 0' in X.columns:
         X=X.drop(columns=['Unnamed: 0'])
