@@ -44,7 +44,11 @@ def run_model(model, deeper=False):
     elif model==4:
         # The parameter are:  Xy, test proportion of the sample and the
         # learning rate
-        mod2.gradient_reg(diamonds_PCA,0.3,0.2)
+        mod2.gradient_reg(diamonds_PCA,0.3,'PCA',0.2)
+    elif model==5:
+        mod2.sgd_regresor(diamonds_nor,0.3)
+    elif model==6:
+        mod2.hist_gra(diamonds_nor,0.3)
 
 def resume():
     print('Importing diamonds_dum.csv')
@@ -68,21 +72,37 @@ def resume():
     deeper=True
     epsilon_v=[ x/100.0 for x in range(40,200,20)]
     C_v=[1,2]
-    mod.SVR_gen(diamonds_PCA,0.3,deeper,epsilon_v,C_v,'PCA')
+#   mod.SVR_gen(diamonds_PCA,0.3,deeper,epsilon_v,C_v,'PCA')
 
-# ***** model 3 
-    mse1= mod2.rand_fores(diamonds_nor,0.3)
-    mse2= mod2.rand_fores(diamonds_ne,0.3,'ne')
-    mse3= mod2.rand_fores(diamonds_PCA,0.3,'PCA')
-    mse4= mod2.rand_fores(diamonds_dum,0.3,'dum')
-# **** model 4
-    mse1= mod2.gradient_reg(diamonds_nor,0.3,0.2,'nor')
-    mse2= mod2.gradient_reg(diamonds_ne,0.3,0.2,'ne')
-    mse3= mod2.gradient_reg(diamonds_PCA,0.3,0.4,'PCA')
-    mse4= mod2.gradient_reg(diamonds_dum,0.3,0.5,'dum')
+    data=[{'nombre':'Normalize',
+            'DF':diamonds_nor,
+            'sigla':'nor' },
+          {'nombre':'Encoding',
+            'DF':diamonds_ne,
+            'sigla':'ne' },
+          {'nombre':'PCA',
+            'DF':diamonds_PCA,
+            'sigla':'PCA' },
+          {'nombre':'dummies',
+            'DF':diamonds_dum,
+            'sigla':'dum' }]
 
+    models=[{'nombre':'Random Forest',
+            'funcion':mod2.rand_fores},
+             {'nombre':'Gradient',
+            'funcion':mod2.gradient_reg},
+            {'nombre':'SGD Regressor',
+            'funcion':mod2.sgd_regresor},
+            {'nombre':'Gradient based histogram',
+            'funcion':mod2.hist_gra}]
+    mse=[]
+    x=[]
+    for d in data:
+        for m in models:
+            mse.append(m['funcion']( d['DF'] , 0.3 , d['sigla'] ) )
+            x.append(m['nombre']+'_'+d['nombre'])
 
-
-
+    plt.plot(x,mse)
+    plt.xlabel('MSE')
 
     return True

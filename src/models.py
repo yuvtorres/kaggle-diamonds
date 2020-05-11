@@ -23,6 +23,11 @@ def SVR_gen(diamonds,test_s,deeper,epsilon_v,C_v,type_dia):
 
     print(f'----- RBF SVR with normalize variables and eps={epsilon_v} -----')
     X=diamonds.drop(columns=['price'])
+    if 'Unnamed: 0' in X.columns:
+        X=X.drop(columns=['Unnamed: 0'])
+    if 'level_0' in X.columns:
+        X=X.drop(columns=['level_0'])
+ 
     y=diamonds.price
 
     MSE=[]
@@ -58,10 +63,10 @@ def SVR_gen(diamonds,test_s,deeper,epsilon_v,C_v,type_dia):
     svr.fit(X,y)
     X_test=pd.read_csv('output/diamonds_test_'+type_dia+'.csv')
     X_test=X_test.reset_index().set_index('index')
-    if 'Unnamed: 0' in X.columns:
-        X=X.drop(columns=['Unnamed: 0'])
-    if 'level_0' in X.columns:
-        X=X.drop(columns=['level_0'])
+    if 'Unnamed: 0' in X_test.columns:
+        X_test=X_test.drop(columns=['Unnamed: 0'])
+    if 'level_0' in X_test.columns:
+        X_test=X_test.drop(columns=['level_0'])
     y_sub=svr.predict(X_test)
     y_sub=pd.DataFrame({'id':range(len(y_sub)),'price': np.absolute(y_sub.astype(int))})
 

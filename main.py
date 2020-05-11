@@ -25,7 +25,8 @@ def main():
     parser.add_argument('--models', metavar='Y', type=int,nargs='+',
 			help='''execute a particular model creating the predictions and a
             graph of the performance:\n 1->Linear\n2 -> SRV_rbf\n3 ->
-            RandomForest_reg\n4 -> GradientBoostingRegressor\n''')
+            RandomForest_reg\n4 -> GradientBoostingRegressor\n5->SGDRegressor\n
+            6->HistGradientBoostingRegressor''')
     parser.add_argument('--resume', action='store_true', 
             help='If active a resume of the models is generated\n')
 
