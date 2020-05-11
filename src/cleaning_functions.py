@@ -7,11 +7,11 @@ from sklearn.decomposition import PCA
 
 def normalize(diamonds,dum_var):
     # normalize the data using quantile transform
-    quant_t=prp.QuantileTransformer( output_distribution='normal',
-            copy=False)
+    quant_t=prp.QuantileTransformer( output_distribution='normal')
     names_col=list(diamonds.columns)
     diamonds_nor=quant_t.fit_transform(diamonds)
-    diamonds_nor=pd.DataFrame(dict(zip(names_col,diamonds_nor)))
+    diamonds_nor=pd.DataFrame(diamonds_nor)
+    diamonds_nor.columns=names_col
     return diamonds_nor
 
 

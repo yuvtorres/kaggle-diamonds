@@ -57,7 +57,7 @@ def SVR_gen(diamonds,test_s,deeper,epsilon_v,C_v,type_dia):
     svr = SVR(C=c_val, epsilon=eps)
     svr.fit(X,y)
     X_test=pd.read_csv('output/diamonds_test_'+type_dia+'.csv')
-    X_test=X_test.reset_index().set_index('index')
+    X_test=X_test.reset_index().set_index('index').drop(columns=['level_0'])
     y_sub=svr.predict(X_test)
     y_sub=pd.DataFrame({'id':range(len(y_sub)),'price': np.absolute(y_sub.astype(int))})
 

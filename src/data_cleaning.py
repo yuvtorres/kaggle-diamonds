@@ -47,7 +47,6 @@ def cleaning_data():
     diamonds=diamonds.set_index('index')
     diamonds_test=diamonds_test.drop(columns=['Unnamed: 0'])
     diamonds_test=diamonds_test.reset_index().set_index('index')
-
 # ***** Creating the dummies ***** 
     print('Creating the dummies ...')
     dum_var=['cut','color','clarity']
@@ -55,9 +54,10 @@ def cleaning_data():
     diamonds_dum=c_f.create_dummies(dum_var,diamonds)
     diamonds_test_dum=c_f.create_dummies(dum_var,diamonds_test)
 
-    # Cleaning the diamons original from the dummies
+    # Cleaning the diamonds original from the dummies
     diamonds=diamonds.drop(columns=diamonds.columns[10:])
-    
+
+
     print('Saving Dummies ...')
     # Export the data_cleaning
     diamonds_dum.to_csv('output/diamonds_dum.csv')
@@ -66,9 +66,11 @@ def cleaning_data():
 # ***** Creating numeric encoding ***** 
     print('Creating numeric encoding ...')
     # Defining the label incoding
-    diamonds_ne=c_f.create_numencod(diamonds,dum_var)
+    diamonds_ne=c_f.create_numencod(diamonds.drop(columns=['price']),dum_var)
     diamonds_test_ne=c_f.create_numencod(diamonds_test,dum_var)
-    
+    diamonds_ne['price']=diamonds['price']
+
+
     print('Saving numeric encoding ...')
     # Export the data_cleaning
     diamonds_ne.to_csv('output/diamonds_ne.csv')
@@ -77,10 +79,11 @@ def cleaning_data():
 # ***** Creating PCA ***** 
     print('Creating PCA ...')
     # Creating PCA
-    dum_var=[var+'_ne' for var in dum_var]
-    diamonds_PCA=c_f.create_PCA(diamonds_ne,dum_var)
-    diamonds_test_PCA=c_f.create_PCA(diamonds_test,dum_var)
-    
+    dum_var_ne=[var+'_ne' for var in dum_var]
+    diamonds_PCA=c_f.create_PCA(diamonds_ne,dum_var_ne)
+    diamonds_test_PCA=c_f.create_PCA(diamonds_test_ne,dum_var_ne)
+    diamonds_PCA['price']=diamonds['price']
+
     print('Saving PCA ...')
     # Export the data_cleaning
     diamonds_PCA.to_csv('output/diamonds_PCA.csv')
@@ -89,9 +92,9 @@ def cleaning_data():
 # ***** Creating Normalize *****
     print('Normalizing the data... ')
     # Normalizing
-    diamonds_nor=c_f.normalize(diamonds_ne.drop(columns=['price']),dum_var)
+    diamonds_nor=c_f.normalize(diamonds_ne,dum_var)
     diamonds_test_nor=c_f.normalize(diamonds_test_ne,dum_var)
-    diamonds_nor['price']=diamonds_ne['price']
+    diamonds_nor['price']=diamonds['price']
 
     print('Saving  normalize...')
     # Export the data_cleaning
