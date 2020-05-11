@@ -99,10 +99,14 @@ def resume():
     x=[]
     for d in data:
         for m in models:
+            print(m['nombre'],' - ',d['nombre'])
             mse.append(m['funcion']( d['DF'] , 0.3 , d['sigla'] ) )
             x.append(m['nombre']+'_'+d['nombre'])
+            print(mse[-1])
 
-    plt.plot(x,mse)
-    plt.xlabel('MSE')
+    mse=[ele if ele<1e6 else 1e6 for ele in mse ]
+    res=pd.Dataframe({'mse':mse,'caso':x})
+    res.to_csv('output/resume.csv')
+    print(res)
 
     return True

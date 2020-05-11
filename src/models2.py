@@ -127,7 +127,6 @@ def rand_fores(diamonds, test_s,type_i='nor'):
     print("For the RandomForestRegressor the MSE is: %.4f" % mse)
 
     print('Generating submission file ...')
-    reg = ensemble.RandomForestRegressor(bootstrap=False)
     reg.fit(X, y)
     X_test = pd.read_csv('output/diamonds_test_'+type_i+'.csv')
     X_test = X_test.reset_index().set_index('index')
@@ -138,7 +137,7 @@ def rand_fores(diamonds, test_s,type_i='nor'):
     try:
         y_sub = reg.predict(X_test)
     except:
-        print(X_test.columns,X.columns)
+        print(type_i,'->', X_test.columns,X.columns)
     y_sub = pd.DataFrame({'id':range(len(y_sub)),'price': np.absolute(y_sub.astype(int))})
 
     y_sub.to_csv('output/pred_rafor_'+type_i+'.csv',index=False)
