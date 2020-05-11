@@ -62,7 +62,7 @@ def main():
 
             x=pd.DataFrame({'mse_prop_sampl_0.3':[],'learn_rate':[]})
             for k in range(30):
-                x=x.append(pd.read_csv(f'../output/h_itera{k}.csv'), ignore_index=True)
+                x=x.append(pd.read_csv(f'output/h_itera{k}.csv'), ignore_index=True)
 
             sns.lmplot(x="learn_rate", y="mse_prop_sampl_0.3", data=x)
             g.set_axis_labels("Learn rate", "MSE with sample proportion of 0.3")
