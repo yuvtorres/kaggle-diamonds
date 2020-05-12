@@ -14,7 +14,7 @@ The [bases](https://www.kaggle.com/c/diamonds-datamad0320) of the competition ar
 *Evaluation criteria*: RMSE (Root Mean Squared Error).
 
 >
-> This repo contains the code for respond this challenge
+> This repo contains the code to answer this challenge
 >
 
 ---
