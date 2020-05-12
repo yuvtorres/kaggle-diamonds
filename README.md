@@ -70,16 +70,23 @@ The result of this part of the process were differents dataframes to be evaluate
 >
 
 The models used were:
-- Linear 
-- SRV_rbf
-- RandomForest_reg 
-- GradientBoostingRegressor
-- SGDRegressor 
-- HistGradientBoostingRegressor
 
-The folling graph shows the result of the models used
+- Linear: In the following graph you can see the performance of the model with two different input, the 
+orange are encoding in integer the categorical variables, and the blue is converting this to dummies. 
+![Result for linear](output/svr_lin_rmse_vs_sample_ne.png)
+
+- SRV_rbf: 
+
+The following models perform much better than the previuos.
+
+- Random forest regession
+- Gradient boosting regressor
+- SGD Regressor 
+- Histogram based gradient boosting regressor
 
 ![result](output/resume.png)
 
 ---
-## Results
+> The best model was `Histogram based gradient boosting regressor`. In consequence the tuning was made over it.
+
+In the following graph it possible appreciate for which `learn_rate` the model perfom better:

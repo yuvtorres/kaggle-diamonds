@@ -98,7 +98,7 @@ def rbf_SVR_no(diamonds_nor,price,test_s,deeper):
         while dep<=k:
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_s)
             y_predict=regr.fit(X_train,y_train).predict(X_test)
-            RMSE.append((((y_predict-y_test)**2).sum()/len(y_test))**0.5)
+            RMSE.append(mean_squared_error(y_test,y_predict))
             x_test.append(eps)
             dep+=1
 
@@ -146,7 +146,7 @@ def rbf_SVR_ne(diamonds_ne,test_s,deeper):
         while dep<=k:
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_s)
             y_predict=regr.fit(X_train,y_train).predict(X_test)
-            RMSE.append((((y_predict-y_test)**2).sum()/len(y_test))**0.5)
+            RMSE.append(mean_squared_error(y_test,y_predict))
             x_test.append(eps)
             dep+=1
 
@@ -184,15 +184,15 @@ def linear_SVR_ne(diamonds_ne):
         for k in range(5):
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_s)
             y_predict=regr.fit(X_train,y_train).predict(X_test)
-            RMSE.append((((y_predict-y_test)**2).sum()/len(y_test))**0.5)
+            RMSE.append(mean_squared_error(y_test,y_predict))
             x_test.append(test_s)
 
 
     print('The result of the model is in the ouput folder -> "svr_linear_r2_vs_sample_ne.png" ')
     plt.scatter(x_test,RMSE)
     plt.xlabel('Test proportion')
-    plt.ylabel('R2 value')
-    plt.savefig('output/svr_liner_r2_vs_sample_ne.png')
+    plt.ylabel('RMSE value')
+    plt.savefig('output/svr_lin_rmse_vs_sample_ne.png')
 
     print('Generating submission file ...')
 
@@ -221,7 +221,7 @@ def linear_SVR_dummies(diamonds_dum):
         for k in range(5):
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_s)
             y_predict=regr.fit(X_train,y_train).predict(X_test)
-            RMSE.append((((y_predict-y_test)**2).sum()/len(y_test))**0.5)
+            RMSE.append(mean_squared_error(y_test,y_predict))
             x_size.append(test_s)
 
     print('The result of the model is in the ouput folder ->  "svr_linear_rmse_vs_sample.png" ')
