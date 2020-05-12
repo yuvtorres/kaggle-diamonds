@@ -86,7 +86,7 @@ The following models perform much better than the previuos.
 ![result](output/resume.png)
 
 ---
-> The best model was `(HGBR) Histogram Based Gradient Boosting Regressor`. In consequence the tuning was made over it.
+The best model was `(HGBR) Histogram Based Gradient Boosting Regressor`. In consequence the tuning was made over it.
 
 In the following graph it possible appreciate for which `learn_rate` the model perfom better:
 
