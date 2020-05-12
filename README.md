@@ -73,6 +73,7 @@ The models used were:
 
 - Linear: In the following graph you can see the performance of the model with two different input, the 
 orange are encoding in integer the categorical variables, and the blue is converting this to dummies. 
+
 ![Result for linear](output/svr_lin_rmse_vs_sample_ne.png)
 
 - SRV_rbf: 
