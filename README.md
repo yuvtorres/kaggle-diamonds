@@ -90,3 +90,4 @@ The following models perform much better than the previuos.
 > The best model was `Histogram based gradient boosting regressor`. In consequence the tuning was made over it.
 
 In the following graph it possible appreciate for which `learn_rate` the model perfom better:
+![tuning](output/Hist_Grad.png)
