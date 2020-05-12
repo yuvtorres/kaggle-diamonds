@@ -17,8 +17,8 @@ if not sys.warnoptions:
 
 def SVR_gen(diamonds,test_s,deeper,epsilon_v,C_v,type_dia):
     # receive the dataframe and the proportion of test/sample
-    # diamonds_ : X , price: vector of prices, test_s: float (0-1)
-    # part of sample, deeper: Bool if True makes 5 samples for each epsilon
+    # diamonds:data , test_s: float (0-1) part of sample,
+    # deeper: Bool if True makes 5 samples for each epsilon
     # if false makes just one, eps is a list of values for eps and C aswell.
 
     print(f'----- RBF SVR with normalize variables and eps={epsilon_v} -----')

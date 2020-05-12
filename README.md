@@ -15,7 +15,8 @@ The [bases](https://www.kaggle.com/c/diamonds-datamad0320) of the competition ar
 
 *Deadline* : 12/05/2020 01:00 AM
 
-*Requirements* :
+*Results* :
+All the process for the calculation of the 
 - Train a minimum of 4 different models
 - Perform a minimum of 4 Feature Extraction and Engineering techniques
 - Documentation needed to reproduce the code
@@ -33,41 +34,52 @@ The data supplied are three tables:
 
 The columns of the data are:
 
-   -  carat:
-   -  cut:
-   -  color:
-   -  clarity:
-   -  depth:
-   -  table:
-   -  x,y,z:
-   -  price:
+   -  carat `numeric` - unit of mass equal to 200 mg.
+   -  cut    `categorical`  - Style and quality of the cutting, it affect the brillance
+   -  color  `categorical`  - letter to label the color of the diamond from D to J 
+   -  clarity `categorical` - visual appearance of internal characteristics of a diamond
+   -  depth   `numeric`     - relation between the depth and the width 
+   -  table  `numeric`  - refers to the flat facet of the diamond 
+   -  x,y,z `numeric`     - dimensions 
+   -  price `numeric`     
 
 ---
 ## Preprocess
 
-<<<<<<< HEAD
-The preprocess of the data will include: dummies generation, Categorial
-generation, Normilization and filter the outlayers
+> The preprocess were implemented in the data_cleaning.py and cleaning_functions.py
+>
+> The process can be called including the option `--data_c_t`
+
+The preprocess of the data will include: dummies generation, categorial
+generation, Normalization and filter the outlayers. 
+
+The outlayers where found in variable `y`, in consequence two registers were excluded 
 
 ### Categorical and dummy generation
 
 There are three variables categoricals, that were transform in dummy and
 categorical form: cut, color and clarity.
 
-With dummies and using a basic regression model we can give an
-order to this categories (even if we are not experts).
-=======
-The preprocess of the data include: dummies generation, numeric encoding, PCA, and filter outlayers.
-
-The result of this part of the process were differents dataframes to be evaluated for the models.
-
-### Dummies generation and numeric encoding
-
-The 
->>>>>>> d9ee428a1bb39141c9c806a7baea253bbebacd7c
+The result of this part of the process were differents dataframes to be evaluated for the models. It includes the test data.
 
 ---
 ## The Models
+
+>
+> The models can be called with the option `--model` follow by the corresponding number 
+>
+
+The models used were:
+- Linear 
+- SRV_rbf
+- RandomForest_reg 
+- GradientBoostingRegressor
+- SGDRegressor 
+- HistGradientBoostingRegressor
+
+The folling graph shows the result of the models used
+
+![result](output/resume.png)
 
 ---
 ## Results

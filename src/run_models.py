@@ -35,8 +35,8 @@ def run_model(model, deeper=False):
         mod.linear_SVR_dummies(diamonds_dum)
         mod.linear_SVR_ne(diamonds_ne)
     elif model==2:
-#        mod.rbf_SVR_ne(diamonds_ne,0.35,deeper)
-#        mod.rbf_SVR_no(diamonds_nor,diamonds_ne.price,0.35,deeper)
+        mod.rbf_SVR_ne(diamonds_ne,0.35,deeper)
+        mod.rbf_SVR_no(diamonds_nor,diamonds_ne.price,0.35,deeper)
         mod.SVR_gen(diamonds_PCA,0.3,deeper,[0.7],[1.0],'PCA')
     elif model==3:
         # The parameter are:  Xy  and  test proportion of the sample
