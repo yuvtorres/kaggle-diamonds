@@ -7,6 +7,7 @@ from src import run_models as r_m
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import src.h2o_grid as my_h2o
 
 def main():
     # Define the description of the programa
@@ -29,12 +30,16 @@ def main():
             graph of the performance:\n 1->Linear\n2 -> SRV_rbf\n3 ->
             RandomForest_reg\n4 -> GradientBoostingRegressor\n5->SGDRegressor\n
             6->HistGradientBoostingRegressor''')
+
     parser.add_argument('--resume', action='store_true', 
             help='If active a resume of the models is generated \n')
 
     parser.add_argument('--hist_deep', metavar='hi',type=int, nargs='?',default=1,\
             help='''Execute an iterative process over the Histogram-based
             Gradient Boosting regression search for a best solution ''')
+
+    parser.add_argument('--h2o', action='store_true',help='If active a  grid search is executed\n')
+
 
     args = parser.parse_args()
 
@@ -46,13 +51,15 @@ def main():
     if args.pre_graph:
         d_c.pre_graph(args.pre_graph[0])
 
-    # Run models
+    # Run one of the models
     if args.models:
         r_m.run_model(args.models[0])
 
+    # Run all models
     if args.resume:
         r_m.resume()
 
+    #For the model selected it makes a iteration over the learn parameter
     if not isinstance(args.hist_deep,int):
         if args.hist_deep[0]==1:
             r_m.h_itera()
@@ -67,6 +74,9 @@ def main():
             g=sns.lmplot(x="learn_rate", y="mse_prop_sampl_0.3", data=x)
             g.set_axis_labels("Learn rate", "MSE with sample proportion of 0.3")
             plt.savefig('output/Hist_Grad.png')
+
+    if args.h2o:
+        my_h2o.h2o_grid()
 
 
 

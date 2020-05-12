@@ -11,6 +11,7 @@ def pre_graph(graph):
     # 1 for corr, 2 for matrix and 3 for both
 
     diamonds=pd.read_csv('data/diamonds_train.csv')
+    diamonds=diamonds.drop(columns=['Unnamed: 0'])
     if graph==1 or graph==3:
 # ***** Creating the correlation graph ***** 
    # Export the correlation

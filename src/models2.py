@@ -48,7 +48,7 @@ def hist_gra(diamonds,test_s,type_i='dum',learn_rate=0.16,make_pred=True,verb=0)
     return mse
 
 
-def sgd_regresor(diamonds,test_s,type_i='nor',eps=0.1):
+def sgd_regresor(diamonds,test_s,type_i='nor',eps=0.2):
     X=diamonds.drop(columns=['price'])
     if 'Unnamed: 0' in X.columns:
         X=X.drop(columns=['Unnamed: 0'])

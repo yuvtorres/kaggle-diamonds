@@ -108,6 +108,15 @@ def resume():
     res=pd.DataFrame({'mse':mse,'caso':x})
     res.to_csv('output/resume.csv')
     print(res)
+    resume=pd.read_csv('output/resume.csv')
+    resume=resume.sort_values(by=['mse'])
+    fig, ax = plt.subplots()
+
+    ax.barh( resume.caso,resume.mse, align='center')
+    ax.invert_yaxis()  # labels read top-to-bottom
+    ax.set_xlabel('MSE')
+
+    plt.savefig('output/resume.png')
 
     return True
 
