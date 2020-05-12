@@ -13,15 +13,9 @@ The [bases](https://www.kaggle.com/c/diamonds-datamad0320) of the competition ar
 
 *Evaluation criteria*: RMSE (Root Mean Squared Error).
 
-*Deadline* : 12/05/2020 01:00 AM
-
-*Results* :
-All the process for the calculation of the 
-- Train a minimum of 4 different models
-- Perform a minimum of 4 Feature Extraction and Engineering techniques
-- Documentation needed to reproduce the code
-- The code in .py files that allows to reproduce the exercise.
-- The Readme must contain a summary of the machine learning tools and algorithms and the results or the score obtained with each of them.
+>
+> This repo contains the code for respond this challenge
+>
 
 ---
 ## The Data
@@ -43,15 +37,17 @@ The columns of the data are:
    -  x,y,z `numeric`     - dimensions 
    -  price `numeric`     
 
+For the numerical data we can make a scatter graph:
+
+![graph](output/descrip_var.png)
+
 ---
 ## Preprocess
 
 > The preprocess were implemented in the data_cleaning.py and cleaning_functions.py
->
 > The process can be called including the option `--data_c_t`
 
-The preprocess of the data will include: dummies generation, categorial
-generation, Normalization and filter the outlayers. 
+The output of this step are differents input for models with: dummies, categorical variables, normalization and filter the outlayers. 
 
 The outlayers where found in variable `y`, in consequence two registers were excluded 
 
@@ -60,7 +56,7 @@ The outlayers where found in variable `y`, in consequence two registers were exc
 There are three variables categoricals, that were transform in dummy and
 categorical form: cut, color and clarity.
 
-The result of this part of the process were differents dataframes to be evaluated for the models. It includes the test data.
+The modifications made in this stage includes the test data.
 
 ---
 ## The Models
@@ -74,7 +70,7 @@ The models used were:
 - Linear: In the following graph you can see the performance of the model with two different input, the 
 orange are encoding in integer the categorical variables, and the blue is converting this to dummies. 
 
-![Result for linear](output/svr_lin_rmse_vs_sample_ne.png)
+![linear](output/svr_lin_rmse_vs_sample_ne.png)
 
 - SRV_rbf: 
 
@@ -92,3 +88,5 @@ The following models perform much better than the previuos.
 
 In the following graph it possible appreciate for which `learn_rate` the model perfom better:
 ![tuning](output/Hist_Grad.png)
+
+
