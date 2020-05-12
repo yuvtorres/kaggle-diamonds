@@ -76,6 +76,8 @@ orange are encoding in integer the categorical variables, and the blue is conver
 
 The following models perform much better than the previuos.
 
+> --resume option to execute the run the models with differents inputs
+
 - Random forest regession
 - Gradient boosting regressor
 - SGD Regressor 
@@ -84,9 +86,12 @@ The following models perform much better than the previuos.
 ![result](output/resume.png)
 
 ---
-> The best model was `Histogram based gradient boosting regressor`. In consequence the tuning was made over it.
+> The best model was `(HGBR) Histogram Based Gradient Boosting Regressor`. In consequence the tuning was made over it.
 
 In the following graph it possible appreciate for which `learn_rate` the model perfom better:
+
+> --hist_deep option to run several times the HGBR with learn values between (0.1 - 0.35)
+
 ![tuning](output/Hist_Grad.png)
 
 
