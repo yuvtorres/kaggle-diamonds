@@ -67,12 +67,13 @@ The modifications made in this stage includes the test data.
 
 The models used were:
 
-- Linear: In the following graph you can see the performance of the model with two different input, the 
-orange are encoding in integer the categorical variables, and the blue is converting this to dummies. 
+- Linear: In the following graph you can see the performance of the model with two different input, the orange are encoding in integer the categorical variables, and the blue is converting this to dummies. 
 
 ![linear](output/svr_lin_rmse_vs_sample_ne.png)
 
-- SRV_rbf: 
+- Support Vector Regression with kernel rbf: the following graph presents the response of the MSE to variations in epsilon.
+
+![SVR](output/svr_rmse_vs_epsilon_PCA.png)
 
 The following models perform much better than the previuos.
 

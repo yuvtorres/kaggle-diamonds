@@ -27,7 +27,7 @@ def SVR_gen(diamonds,test_s,deeper,epsilon_v,C_v,type_dia):
         X=X.drop(columns=['Unnamed: 0'])
     if 'level_0' in X.columns:
         X=X.drop(columns=['level_0'])
- 
+
     y=diamonds.price
 
     MSE=[]
@@ -67,8 +67,11 @@ def SVR_gen(diamonds,test_s,deeper,epsilon_v,C_v,type_dia):
         X_test=X_test.drop(columns=['Unnamed: 0'])
     if 'level_0' in X_test.columns:
         X_test=X_test.drop(columns=['level_0'])
-
-    y_sub=svr.predict(X_test)
+    try:
+        y_sub=svr.predict(X_test)
+    except:
+        print('X_test:', X_test.columns,'-',X_test.shape)
+        print('X:', X.columns,'-',X.shape)
     y_sub=pd.DataFrame({'id':range(len(y_sub)),'price': np.absolute(y_sub.astype(int))})
 
     y_sub.to_csv('output/svr_'+type_dia+'.csv',index=False)
